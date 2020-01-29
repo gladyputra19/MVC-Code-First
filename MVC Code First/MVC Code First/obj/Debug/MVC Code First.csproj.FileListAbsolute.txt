@@ -108,4 +108,3 @@ E:\Bootcamp\git\MVC-Code-First\MVC Code First\MVC Code First\obj\Debug\MVC Code 
 E:\Bootcamp\git\MVC-Code-First\MVC Code First\MVC Code First\obj\Debug\MVC Code First.csproj.CopyComplete
 E:\Bootcamp\git\MVC-Code-First\MVC Code First\MVC Code First\obj\Debug\MVC Code First.dll
 E:\Bootcamp\git\MVC-Code-First\MVC Code First\MVC Code First\obj\Debug\MVC Code First.pdb
-E:\Bootcamp\git\MVC-Code-First\MVC Code First\MVC Code First\obj\Debug\MVC Code First.csprojAssemblyReference.cache

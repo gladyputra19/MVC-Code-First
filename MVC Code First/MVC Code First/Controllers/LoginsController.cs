@@ -83,35 +83,28 @@ namespace MVC_Code_First.Controllers
         [HttpPost]
         public ActionResult Register(Login register)
         {
-            try
-            {
-                // TODO: Add insert logic here
+           
                 register.Password = Hashing.hashPassword(register.Password);
                 MyContext.Logins.Add(register);
                 MyContext.SaveChanges();
                 MailMessage sMail = new MailMessage();
                 sMail.To.Add(new MailAddress(register.Email));
-                sMail.From = new MailAddress("nefeskulza@gmail.com");
+                sMail.From = new MailAddress("cobamvc@gmail.com");
                 sMail.Subject = "[Password] " + DateTime.Now.ToString("ddMMyyyyhhmmss");
                 sMail.Body = "Hello New User, \n This Is Your Password : " + register.Password;
 
                 SmtpClient smtp = new SmtpClient();
                 smtp.Host = "smtp.gmail.com";
-                smtp.Port = 465;
-                smtp.EnableSsl = true;
-
+                smtp.Port = 587;
+            smtp.EnableSsl = true;
+    
                 smtp.UseDefaultCredentials = false;
-                smtp.Credentials = new NetworkCredential("nefeskulza@gmail.com", "nefeskulza");
+                smtp.Credentials = new System.Net.NetworkCredential("cobamvc@gmail.com", "Bootcamp33");
                 smtp.Send(sMail);
                 ViewBag.Message = "Password Has Been Sent To Your Reserved Email. Please Kindly To Check Your Email To Login";
                 return RedirectToAction("Login");
 
-            }
-            catch
-            {
-                ViewBag.Message = "Failed To Send Email";
-                return View("Login");
-            }
+            
         }
 
         // GET: Logins/Edit/5
