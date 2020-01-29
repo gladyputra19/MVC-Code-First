@@ -52,7 +52,6 @@ namespace MVC_Code_First.Controllers
 
         // POST: Logins/Create
         [HttpPost]
-
         public ActionResult Login(Login login)
         {
             var slog = MyContext.Logins.Where(e => e.Email == login.Email).SingleOrDefault();
@@ -91,12 +90,12 @@ namespace MVC_Code_First.Controllers
                 sMail.To.Add(new MailAddress(register.Email));
                 sMail.From = new MailAddress("cobamvc@gmail.com");
                 sMail.Subject = "[Password] " + DateTime.Now.ToString("ddMMyyyyhhmmss");
-                sMail.Body = "Hello New User, \n This Is Your Password : " + register.Password;
+                sMail.Body = "Hello New User, \nThis Is Your Password : " + register.Password;
 
                 SmtpClient smtp = new SmtpClient();
                 smtp.Host = "smtp.gmail.com";
                 smtp.Port = 587;
-            smtp.EnableSsl = true;
+                smtp.EnableSsl = true;
     
                 smtp.UseDefaultCredentials = false;
                 smtp.Credentials = new System.Net.NetworkCredential("cobamvc@gmail.com", "Bootcamp33");
