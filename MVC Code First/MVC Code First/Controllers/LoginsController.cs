@@ -68,41 +68,51 @@ namespace MVC_Code_First.Controllers
 
             }
             return RedirectToAction("Login");
-            //var log = MyContext.Logins.Where(a => a.Email == login.Email && a.Password == login.Password).SingleOrDefault();
-            //var result = Hashing.validatePassword(myPassword, login.Password);
-            //if (log != null)
-            //{
-            //    return RedirectToAction("Index");
-            //}
-            //else
-            //{
-            //    return RedirectToAction("Login");
-            //}
+           
         }
         [HttpPost]
         public ActionResult Register(Login register)
         {
-           
+            try
+            {
+
                 register.Password = Hashing.hashPassword(register.Password);
                 MyContext.Logins.Add(register);
-                MyContext.SaveChanges();
-                MailMessage sMail = new MailMessage();
-                sMail.To.Add(new MailAddress(register.Email));
-                sMail.From = new MailAddress("cobamvc@gmail.com");
-                sMail.Subject = "[Password] " + DateTime.Now.ToString("ddMMyyyyhhmmss");
-                sMail.Body = "Hello New User, \nThis Is Your Password : " + register.Password;
+                var result = MyContext.SaveChanges();
+                if (result == 2)
+                {
+                    MailMessage sMail = new MailMessage();
+                    sMail.To.Add(new MailAddress(register.Email));
+                    sMail.From = new MailAddress("cobamvc@gmail.com");
+                    sMail.Subject = "[Password] " + DateTime.Now.ToString("ddMMyyyyhhmmss");
+                    sMail.Body = "Hello New User, \nThis Is Your Password : " + register.Password;
 
-                SmtpClient smtp = new SmtpClient();
-                smtp.Host = "smtp.gmail.com";
-                smtp.Port = 587;
-                smtp.EnableSsl = true;
-    
-                smtp.UseDefaultCredentials = false;
-                smtp.Credentials = new System.Net.NetworkCredential("cobamvc@gmail.com", "Bootcamp33");
-                smtp.Send(sMail);
-                ViewBag.Message = "Password Has Been Sent To Your Reserved Email. Please Kindly To Check Your Email To Login";
-                return RedirectToAction("Login");
+                    SmtpClient smtp = new SmtpClient();
+                    smtp.Host = "smtp.gmail.com";
+                    smtp.Port = 587;
+                    smtp.EnableSsl = true;
 
+                    smtp.UseDefaultCredentials = false;
+                    smtp.Credentials = new System.Net.NetworkCredential("cobamvc@gmail.com", "Bootcamp33");
+                    smtp.Send(sMail);
+                    Console.WriteLine("Password Has Been Sent To Your Reserved Email. Please Kindly To Check Your Email To Login");
+                    return RedirectToAction("Login");
+                }
+                else
+                {
+                    ModelState.AddModelError("Email", "Email is Empty");
+                    return Content("<script language='javascript' type='text/javascript'>alert('Thanks for Feedback!');</script>");
+                }
+            }
+            catch
+            {
+                return Content("<script language='javascript' type='text/javascript'>alert('Thanks for Feedback!');</script>");
+            }
+                
+                
+            
+                
+            
             
         }
 
