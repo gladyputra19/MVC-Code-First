@@ -8,6 +8,8 @@ using System.Web.Mvc;
 using MVC_Code_First.Models;
 using MVC_Code_First.Util;
 using System.Net;
+using System.Threading.Tasks;
+using System.Data.Entity;
 
 namespace MVC_Code_First.Controllers
 {
@@ -15,9 +17,9 @@ namespace MVC_Code_First.Controllers
     {
         ApplicationDbContext MyContext = new ApplicationDbContext();
         // GET: Logins
-        public ActionResult Index()
+        public async Task<ActionResult> Index(Role role)
         {
-            var list = MyContext.Logins.ToList();
+            var list = await MyContext.Logins.ToListAsync();
             return View(list);
         }
         // GET: LoginView
@@ -52,9 +54,9 @@ namespace MVC_Code_First.Controllers
 
         // POST: Logins/Create
         [HttpPost]
-        public ActionResult Login(Login login)
+        public async Task<ActionResult> Login(Login login)
         {
-            var slog = MyContext.Logins.Where(e => e.Email == login.Email).SingleOrDefault();
+            var slog = await MyContext.Logins.Where(e => e.Email == login.Email).SingleOrDefaultAsync();
             if (slog != null)
             {
                 var myPassword = Hashing.validatePassword(login.Password, slog.Password);
@@ -62,25 +64,28 @@ namespace MVC_Code_First.Controllers
                 {
                     Session["Email"] = login.Email;
                     Session.Add("Email", login.Email);
-                    return RedirectToAction("Index");
+                    return RedirectToAction("Index", "Dashboard");
                 }
-                return RedirectToAction("Login");
+                return RedirectToAction("Index", "Dashboard");
 
             }
             return RedirectToAction("Login");
            
         }
         [HttpPost]
-        public ActionResult Register(Login register)
+        public async Task<ActionResult> Register(Login register)
         {
-            try
-            {
+            //try
+            //{
 
                 register.Password = Hashing.hashPassword(register.Password);
+                var role = await MyContext.Roles.FirstOrDefaultAsync(b => b.Id == 2);
+                register.Role = role;
                 MyContext.Logins.Add(register);
                 var result = MyContext.SaveChanges();
-                if (result == 2)
+                if (result > 0)
                 {
+                    
                     MailMessage sMail = new MailMessage();
                     sMail.To.Add(new MailAddress(register.Email));
                     sMail.From = new MailAddress("cobamvc@gmail.com");
@@ -103,11 +108,11 @@ namespace MVC_Code_First.Controllers
                     ModelState.AddModelError("Email", "Email is Empty");
                     return Content("<script language='javascript' type='text/javascript'>alert('Thanks for Feedback!');</script>");
                 }
-            }
-            catch
-            {
-                return Content("<script language='javascript' type='text/javascript'>alert('Thanks for Feedback!');</script>");
-            }
+            //}
+            //catch
+            //{
+            //    return Content("<script language='javascript' type='text/javascript'>alert('Thanks for Feedback!');</script>");
+            //}
                 
                 
             
@@ -115,21 +120,25 @@ namespace MVC_Code_First.Controllers
             
             
         }
-
+        
         // GET: Logins/Edit/5
         public ActionResult Edit(int id)
         {
-            return View();
+            var edit = MyContext.Logins.Find(id);
+            return View(edit);
         }
 
         // POST: Logins/Edit/5
         [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
+        public ActionResult Edit(int id, Login login)
         {
             try
             {
                 // TODO: Add update logic here
-
+                var edit = MyContext.Logins.Find(id);
+                edit.Email = login.Email ;
+                MyContext.Entry(edit).State = System.Data.Entity.EntityState.Modified;
+                MyContext.SaveChanges();
                 return RedirectToAction("Index");
             }
             catch
@@ -139,9 +148,10 @@ namespace MVC_Code_First.Controllers
         }
 
         // GET: Logins/Delete/5
-        public ActionResult Delete(int id)
+        public async Task<ActionResult> Delete(int id)
         {
-            return View();
+            var delete = await MyContext.Logins.FindAsync(id);
+            return View(delete);
         }
 
         // POST: Logins/Delete/5
@@ -151,7 +161,9 @@ namespace MVC_Code_First.Controllers
             try
             {
                 // TODO: Add delete logic here
-
+                var delete = MyContext.Logins.Find(id);
+                MyContext.Logins.Remove(delete);
+                MyContext.SaveChanges();
                 return RedirectToAction("Index");
             }
             catch

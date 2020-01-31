@@ -103,6 +103,7 @@ E:\Bootcamp\git\MVC-Code-First\MVC Code First\MVC Code First\bin\Microsoft.Owin.
 E:\Bootcamp\git\MVC-Code-First\MVC Code First\MVC Code First\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
 E:\Bootcamp\git\MVC-Code-First\MVC Code First\MVC Code First\obj\Debug\MVC_Code_First.Migrations.addRoleModel.resources
 E:\Bootcamp\git\MVC-Code-First\MVC Code First\MVC Code First\obj\Debug\MVC_Code_First.Migrations.addLoginModel.resources
+E:\Bootcamp\git\MVC-Code-First\MVC Code First\MVC Code First\obj\Debug\MVC_Code_First.Migrations.addLoginModel1.resources
 E:\Bootcamp\git\MVC-Code-First\MVC Code First\MVC Code First\obj\Debug\MVC Code First.csproj.GenerateResource.cache
 E:\Bootcamp\git\MVC-Code-First\MVC Code First\MVC Code First\obj\Debug\MVC Code First.csproj.CoreCompileInputs.cache
 E:\Bootcamp\git\MVC-Code-First\MVC Code First\MVC Code First\obj\Debug\MVC Code First.csproj.CopyComplete

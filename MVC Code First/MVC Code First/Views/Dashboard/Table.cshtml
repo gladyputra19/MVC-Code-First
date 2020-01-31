@@ -1,0 +1,84 @@
+﻿@model IEnumerable<MVC_Code_First.Models.Login>
+
+@{
+    ViewBag.Title = "Table User";
+    Layout = "~/Views/Layout/Layout.cshtml";
+}
+
+<!-- ============================================================== -->
+<!-- Start Page Content -->
+<!-- ============================================================== -->
+<div class="row">
+    <!-- column -->
+    <div class="col-sm-12">
+        <div class="card">
+            <div class="card-block">
+                <h4 class="card-title">Basic Table</h4>
+                <h6 class="card-subtitle">Add class <code>.table</code></h6>
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                               
+                                <th> Email</th>
+                                <th> Password</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Email)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Password)
+                                    </td>
+                                    <td>
+                                        <a href="@Url.Action("Edit", new { id = item.Id })" class="fa fa-edit"></a> |
+                                        <a href="@Url.Action("Details", new { id = item.Id })" class="fa fa-info"></a>|
+                                        <a href="@Url.Action("Delete", new { id = item.Id })" class="fa fa-window-close"></a>
+                                        
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- ============================================================== -->
+<!-- End PAge Content -->
+<!-- ============================================================== -->
+@section Scripts
+    {
+    <!-- All Jquery -->
+    <!-- ============================================================== -->
+    <script src="~/Assets/plugins/jquery/jquery.min.js"></script>
+    <!-- Bootstrap tether Core JavaScript -->
+    <script src="~/Assets/plugins/bootstrap/js/tether.min.js"></script>
+    <script src="~/Assets/plugins/bootstrap/js/bootstrap.min.js"></script>
+    <!-- slimscrollbar scrollbar JavaScript -->
+    <script src="~/Assets/main/js/jquery.slimscroll.js"></script>
+    <!--Wave Effects -->
+    <script src="~/Assets/main/js/waves.js"></script>
+    <!--Menu sidebar -->
+    <script src="~/Assets/main/js/sidebarmenu.js"></script>
+    <!--stickey kit -->
+    <script src="~/Assets/plugins/sticky-kit-master/dist/sticky-kit.min.js"></script>
+    <!--Custom JavaScript -->
+    <script src="~/Assets/main/js/custom.min.js"></script>
+    <!-- ============================================================== -->
+    <!-- This page plugins -->
+    <!-- ============================================================== -->
+    <!-- Flot Charts JavaScript -->
+    <script src="~/Assets/plugins/flot/jquery.flot.js"></script>
+    <script src="~/Assets/plugins/flot.tooltip/js/jquery.flot.tooltip.min.js"></script>
+    <script src="~/Assets/main/js/flot-data.js"></script>
+    <!-- ============================================================== -->
+    <!-- Style switcher -->
+    <!-- ============================================================== -->
+    <script src="~/Assets/plugins/styleswitcher/jQuery.style.switcher.js"></script>
+}
